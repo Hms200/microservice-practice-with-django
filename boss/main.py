@@ -1,6 +1,9 @@
-from flask import Flask
+from flask import Flask, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from dataclasses import dataclass
+import requests
+from producer import publish
 
 
 app = Flask(__name__)
@@ -11,21 +14,40 @@ CORS(app)
 
 db = SQLAlchemy(app)
 
-class Shop():
+@dataclass
+class Shop(db.Model):
+    id: int
+    shop_name: str
+    shop_address: str
+    
     id = db.Column(db.Integer, primary_key=True, autoincrement=False)
     shop_name = db.Column(db.String(200))
     shop_address = db.Column(db.String(200))
-    
 
-class Order():
+    
+@dataclass
+class Order(db.Model):
+    id: int
+    shop: str
+    address: str
+    
     id = db.Column(db.Integer, primary_key=True, autoincrement=False)
     shop = db.Column(db.Integer)
     address = db.Column(db.String(200))
     
 
-@app.route('/')
+@app.route('/api/shop')             #get
 def index():
-    return 'hello'
+    return jsonify(Shop.query.all())
+
+
+@app.route('/api/order/<int:id>/deliver_finish', methods=['post'])
+def deliver_finish(id):
+    publish('order_deliverfinish', id)
+    
+    return jsonify({
+        'message': 'success'
+    })
 
 if __name__=='__main__':
     app.run(debug=True, host='0.0.0.0')
