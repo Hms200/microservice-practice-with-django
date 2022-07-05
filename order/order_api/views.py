@@ -17,7 +17,7 @@ class ShopViewSet(viewsets.ViewSet):
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
     
-    def restrive(self, request, pk=None):
+    def retrive(self, request, pk=None):
         shop = Shop.objects.get(id=pk)
         serializer = ShopSerializer(shop)
         return Response(serializer.data)
@@ -47,9 +47,9 @@ class OrderViewSet(viewsets.ViewSet):
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
     
-    def restrive(self, request, pk=None):
+    def retrive(self, request, pk=None):
         order = Order.objects.get(id=pk)
-        serializer = ShopSerializer(order)
+        serializer = OrderSerializer(order)
         return Response(serializer.data)
     
     def update(self, request, pk=None):

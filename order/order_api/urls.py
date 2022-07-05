@@ -3,7 +3,7 @@ from django.urls import path
 from .views import ShopViewSet, OrderViewSet
 
 urlpatterns = [
-    path('shop/', ShopViewSet.as_view({
+    path('shop', ShopViewSet.as_view({
         'get': 'list',
         'post': 'create',
     })),
@@ -12,7 +12,7 @@ urlpatterns = [
         'put': 'update',
         'delete': 'destroy',
     })),
-    path('order/', OrderViewSet.as_view({
+    path('order', OrderViewSet.as_view({
         'get': 'list',
         'post': 'create',
     })),
