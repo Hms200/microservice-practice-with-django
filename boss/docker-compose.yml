@@ -33,7 +33,7 @@ services:
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - .dbdata:/var.lib/mysql
+      - .dbdata:/var/lib/mysql
     ports:
       - 33067:3306
     healthcheck:
